@@ -12,6 +12,7 @@ pipeline {
             steps {
                 def packageJson = readJSON file: 'package.json'
                 def appVesrion = packageJson.version
+                echo "Application version is $appVersion"
 
             }
         }
@@ -22,7 +23,7 @@ pipeline {
                 sh """
                 npm install
                 ls -ltr
-                echo $appVesrion
+                echo "Application version is $appVersion"
 
                 """
             }
