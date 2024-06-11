@@ -7,14 +7,22 @@ pipeline {
         disableConcurrentBuilds()
         ansiColor('xterm')
     }
+    stages {
+        stage('read the version') {
+            steps {
+                def packageJson = readJSON file: 'package.json'
+                def appVesrion = packageJson.version
 
+            }
+        }
+    }
     stages {
         stage('Install Dependencies') {
             steps {
                 sh """
                 npm install
                 ls -ltr
-                pwd
+                echo $appVesrion
 
                 """
             }
