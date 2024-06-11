@@ -15,8 +15,9 @@ pipeline {
                     def appVesrion = packageJson.version
                     echo "Application version is $appVersion"
                 }
-
             }
+
+         }
         stage('Install Dependencies') {
             steps {
                 sh """
@@ -42,5 +43,4 @@ pipeline {
             echo 'This will run when pipeline is failed'
         }
     }
-}
 }
