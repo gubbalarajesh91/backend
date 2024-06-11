@@ -14,6 +14,7 @@ pipeline {
                 sh """
                 npm install
                 ls -ltr
+                pwd
 
                 """
             }
