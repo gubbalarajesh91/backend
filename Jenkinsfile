@@ -17,14 +17,12 @@ pipeline {
                 }
             }
 
-         }
         stage('Install Dependencies') {
             steps {
                 sh """
                 npm install
                 ls -ltr
                 echo "Application version is $appVersion"
-
                 """
             }
         }
@@ -43,4 +41,5 @@ pipeline {
             echo 'This will run when pipeline is failed'
         }
     }
+}
 }
