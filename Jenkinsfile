@@ -37,6 +37,7 @@ pipeline {
                 zip -q -r backend-${appVersion}.zip * -x Jenkinsfile -x backend-${appVersion}.zip
                 ls -ltr
                 """
+                // zip -q -r <file-name.zip> * -x(exclude)  
             }
         }
     
@@ -62,6 +63,19 @@ pipeline {
     //         }
     //     }
     // }
+
+            stage('Sonar Scan'){
+            environment {
+                scannerHome = tool 'sonar-6.0' //referring scanner CLI
+            }
+            steps {
+                script {
+                    withSonarQubeEnv('sonar-6.0') { //referring sonar server
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
 
         stage('Deploy'){
             steps{
