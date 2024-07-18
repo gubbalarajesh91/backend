@@ -7,6 +7,9 @@ pipeline {
         disableConcurrentBuilds()
         ansiColor('xterm')
     }
+    parameters{
+        booleanParam(name:'deploy', defaultValue: false, description: 'Not deploy by default')
+    }
     environment{
         def appVersion = '' //variable declaration
         nexusUrl = 'nexus.daws78s.online:8081'
@@ -42,29 +45,29 @@ pipeline {
         }
     
     
-    // stage('Nexus Artifact Upload'){
-    //         steps{
-    //             script{
-    //                 nexusArtifactUploader(
-    //                     nexusVersion: 'nexus3',
-    //                     protocol: 'http',
-    //                     nexusUrl: "${nexusUrl}",
-    //                     groupId: 'com.expense',
-    //                     version: "${appVersion}",
-    //                     repository: "backend",
-    //                     credentialsId: 'nexus-auth',
-    //                     artifacts: [
-    //                         [artifactId: "backend" ,
-    //                         classifier: '',
-    //                         file: "backend-" + "${appVersion}" + '.zip',
-    //                         type: 'zip']
-    //                 ]
-    //             )
-    //         }
-    //     }
-    // }
+    stage('Nexus Artifact Upload'){
+            steps{
+                script{
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: "${nexusUrl}",
+                        groupId: 'com.expense',
+                        version: "${appVersion}",
+                        repository: "backend",
+                        credentialsId: 'nexus-auth',
+                        artifacts: [
+                            [artifactId: "backend" ,
+                            classifier: '',
+                            file: "backend-" + "${appVersion}" + '.zip',
+                            type: 'zip']
+                    ]
+                )
+            }
+        }
+    }
 
-            stage('Sonar Scan'){
+        stage('Sonar Scan'){
             environment {
                 scannerHome = tool 'sonar-6.0' //referring scanner CLI
             }
@@ -77,7 +80,20 @@ pipeline {
             }
         }
 
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 30, unit: 'MINUTES'){
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
         stage('Deploy'){
+             when {
+                expression{
+                    params.deploy
+                }
+            }           
             steps{
                 script{
                     def params = [
