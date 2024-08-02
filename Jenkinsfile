@@ -12,7 +12,7 @@ pipeline {
     }
     environment{
         def appVersion = '' //variable declaration
-        nexusUrl = 'http://52.86.41.202:8081/'
+        nexusUrl = 'http://52.86.41.202:8081'
     }
     stages {
         stage('read the version') {
@@ -46,7 +46,7 @@ pipeline {
         }
     
     
-    stage('Nexus Artifact Upload'){
+        stage('Nexus Artifact Upload'){
             steps{
                 script{
                     nexusArtifactUploader(
