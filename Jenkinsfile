@@ -37,7 +37,7 @@ pipeline {
         stage('Build'){
             steps{
                 sh """
-                zip -q -r backend1-${appVersion}.zip * -x Jenkinsfile -x backend-${appVersion}.zip
+                zip -q -r backend-${appVersion}.zip * -x Jenkinsfile -x backend-${appVersion}.zip
                 ls -ltr
                 pwd
                 """
@@ -58,9 +58,9 @@ pipeline {
                         repository: "backend",
                         credentialsId: 'nexus-auth',
                         artifacts: [
-                            [artifactId: "backend1" ,
+                            [artifactId: "backend" ,
                             classifier: '',
-                            file: "backend1-" + "${appVersion}" + '.zip',
+                            file: "backend-" + "${appVersion}" + '.zip',
                             type: 'zip']
                     ]
                 )
