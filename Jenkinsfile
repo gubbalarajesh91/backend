@@ -58,7 +58,7 @@ pipeline {
                         repository: "backend",
                         credentialsId: 'nexus-auth',
                         artifacts: [
-                            [artifactId: "backend" ,
+                            [artifactId: "backend1" ,
                             classifier: '',
                             file: "backend-" + "${appVersion}" + '.zip',
                             type: 'zip']
