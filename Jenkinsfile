@@ -31,8 +31,6 @@ pipeline {
                 npm install
                 ls -ltr
                 echo "Application version is $appVersion"
-                pwd
-                pwd
                 """
             }
         }
